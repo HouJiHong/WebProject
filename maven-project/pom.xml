@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.Hjh</groupId>
+    <artifactId>maven-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--<dependencies>
+        <dependency>
+            <groupId></groupId>
+            <artifactId></artifactId>
+            <version></version>
+
+
+            <exclusions>排除不想要的依赖
+                <exclusion>
+                    <artifactId></artifactId>
+                    <groupId></groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>-->
+
+
+    <!--如果依赖文件爆红，可能是因为依赖文件没有下载完整，在maven仓库生成了***.lastUpdated文件，
+    删除该文件，重新下载依赖文件即可。-->
+    <!--可以在cmd中在仓库路径下，输入del /s *.lastUpdated递归删除指定目录下的*.lastUpdated文件，然后重新加载-->
+    <dependencies>
+        <!--引入单元测试框架JUnit-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <!--限制依赖范围-->
+            <!--scope值：         依赖范围：
+            compile（默认)     主程序，测试程序，打包
+            test               测试程序
+            provided           主程序，测试程序
+            runtime            测试程序，打包-->
+            <scope>test</scope>
+
+        </dependency>
+    </dependencies>
+</project>
