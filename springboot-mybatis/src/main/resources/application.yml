@@ -1,0 +1,33 @@
+#yml和yaml配置文件（application.properties的平替）
+#application.yml或application.yaml
+
+#数值前边必须有空格，作为分隔符
+#使用缩进表示层级关系，缩进时，不允许使用Tab键，只能用空格（idea中会自动将Tab转换为空格）
+#缩进的空格数目不重要，只要相同层级的元素左侧对齐即可
+# #表示注释，从这个字符一直到行尾，都会被解析器忽略
+#注意：在yml格式的配置文件中，如果配置项的值是以0开头的，值需要使用''引起来，因为以0开头在yml中表示8进制的数据。
+
+#定义对象/Map集合：
+#user:
+# name: 张三
+# age: 18
+# password: '0123456'
+
+#定义数组/List/Set集合:
+#hobby:
+# - java
+# - game
+# - sport
+
+spring:
+  application:
+    name: springboot-mybatis
+  datasource:
+    url: jdbc:mysql://localhost:3306/student
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
