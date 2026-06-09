@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hjh.mapper.EmpMapper">
+<!--    只需配置一个参数：namespace：为需映射sql类的reference(右键类名复制)-->
+<!--id:为方法的名字，resultType：为查询返回的单条记录所封装的类型-->
+<!--                       where e.name like '%#{name}%' 在引号中不能使用#{}，因为在编译后会被替换成?，-->
+<!--                       而？在引号中不再是占位符，而是字符串，所以要用concat拼接字符串-->
+
+    <!--<select id="list" resultType="com.hjh.bean.Emp">
+        select e.* ,d.name deptName from emp e left join dept d on e.dept_id = d.id
+        where e.name like concat('%',#{name},'%')
+            and e.gender = #{gender}
+            and e.entry_date between #{begin} and #{end}
+        order by e.update_time desc
+    </select>-->
+
+
+
+<!--    动态sql，优化查询条件-->
+<!--    由于模糊查询的条件是可选的，每次查询的条件个数是变化的，所以sql语句不能直接写死，要添加<>标签-->
+
+    <!--<if>：判断条件是否成立，如果条件为true，则拼接SQL。（会出现and多余或缺少问题）
+    <where>：根据查询条件，来生成where关键字，并会自动去除条件前面多余的and或or。-->
+    <select id="list" resultType="com.hjh.bean.Emp">
+        select e.* ,d.name deptName from emp e left join dept d on e.dept_id = d.id
+                                    <where>
+                                        <if test="name !=null and name !=''">
+                                            e.name like concat('%',#{name},'%')
+                                        </if>
+                                        <if test="gender !=null">
+                                            and e.gender = #{gender}
+                                        </if>
+                                        <if test="begin !=null and end !=null">
+                                            and e.entry_date between #{begin} and #{end}
+                                        </if>
+                                    </where>
+
+                                    order by e.update_time desc
+    </select>
+</mapper>

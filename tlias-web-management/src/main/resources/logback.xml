@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度  %logger{50}: 最长50个字符(超出.切割)  %msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 系统文件输出   -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 日志文件输出的文件名，%i表示日志文件索引，默认为0-->
+            <FileNamePattern>E:/JavaProject/web-project/tlias-web-management/tlias-%d{yyyy-MM-dd}-%i.log</FileNamePattern>
+            <!-- 最多保存的历史日志文件个数-->
+            <maxHistory>30</maxHistory>
+            <!-- 最大文件大小，超过这个大小会触发滚动到新文件保存，默认值：10MB-->
+            <maxFileSize>10MB</maxFileSize>
+
+        </rollingPolicy>
+
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度  %logger{50}: 最长50个字符(超出.切割)  %msg：日志消息，%n是换行符 -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+        </encoder>
+
+    </appender>
+
+    <!--日志级别指的是日志信息的类型，日志都会分级别，常见的日志级别如下（级别由低到高）：
+    trace   追踪，记录程序运行轨迹【使用很少】                                       log.trace("...")
+    debug   调试，记录程序调试过程中的信息，实际应用中一般将其视为最低级别【使用较多】    log.debug("...")
+    info    记录一般信息，描述程序运行的关键事件，如：网络连接、io操作【使用较多】       log.info("..")
+    warn    警告信息，记录潜在有害的情况【使用较多】                                  log.warn("...")
+    error   错误信息【使用较多】                                                   log.error("...")
+    可以在配置文件中，灵活的控制输出那些类型的日志。（大于等于配置的日志级别的日志才会输出）-->
+
+    
+    <!-- 日志输出级别 -->
+    <!-- 大于等于info的日志，会输出到控制台和文件-->
+    <root level="info">
+<!--        如果level改为off，则不会输出任何日志-->
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

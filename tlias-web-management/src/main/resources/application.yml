@@ -1,0 +1,32 @@
+#工程搭建
+#1．创建SpringBoot工程，并引入web开发起步依赖、mybatis、mysql驱动、lombok。
+#2．创建数据库表dept，并在application.yml中配置数据库的基本信息。
+#3．准备基础代码结构，并引入实体类Dept及统一的响应结果封装类Result。
+
+#web开发分为前后端，前端负责html，js，css，开发完成后部署在NGINX服务器中，后端负责java代码，开发完成后部署在Tomcat服务器中。
+#前后端在交互时，用的是restful风格，也就是url来定位资源，http方法来描述操作。
+#例如：
+#http://localhost:8080/users/1  请求方式：GET  查询id为1的用户
+#http://localhost:8080/users/1  请求方式：DELETE  删除id为1的用户
+#http://localhost:8080/users    请求方式：POST  新增用户
+#http://localhost:8080/users    请求方式：PUT 修改用户
+#1.REST是风格，是约定方式，约定不是规定，可以打破。
+#2.描述功能模块通常使用复数形式（加s），表示此类资源，而非单个资源。如：users、books...
+
+#前后端都在并行开发，后端开发完对应的接口之后，如何对接口进行请求测试呢？（通过浏览器只能发送get，无法发其他）
+#前后端都在并行开发，前端开发过程中，如何获取到数据，测试页面的渲染展示呢？
+#使用 Apifox  作用：接口文档管理、接口请求测试、Mock服务。
+spring:
+  application:
+    name: tlias-web-management
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #驼峰命名映射：直接搜camel
+    map-underscore-to-camel-case: true
