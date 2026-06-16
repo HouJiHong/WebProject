@@ -22,6 +22,24 @@ public class UploadController {
      * 3.MultipartFile文件对象，会将文本和文件保存到服务器，保存路径为临时目录，用完就删除,所以需要及时保存
      * 4.Controller方法返回值类型为Result，将上传结果封装为Result对象，返回给前端
      */
+    //不推荐直接将上传的文件直接保存在服务器中，1.浏览器无法直接访问保存的文件2.服务器容量有限制3.安全问题
+    //解决方法：1.自己搭建文件存储服务2.使用第三方云服务 (云服务代表很多服务，这里只用对象存储服务)
+    //阿里云对象存储OSS（ObjectStorageService），是云存储服务。使用OSS，
+    //可以通过网络随时存储和调用包括文本、图片、音频和视频等在内的各种文件。
+    //流程：1.注册阿里云 2.开通对象存储服务oss 3.创建Bucket（存储空间）4.获取并配置accessKey密钥
+    //bucket:文件上传保存的地方
+    //accessKey密钥保存好，以管理员身份打开CMD命令行，执行如下命令，配置系统的环境变量。
+    //set OSS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXXXX
+    //set OSS_ACCESS_KEY_SECRET=XXXXXXXXXXXXXXXXXX
+    //setx OSS_ACCESS_KEY_ID "%OSS_ACCESS_KEY_ID%"
+    //setx OSS_ACCESS_KEY_SECRET "%OSS_ACCESS_KEY_SECRET%"
+    //echo %OSS_ACCESS_KEY_ID%
+    //echo %OSS_ACCESS_KEY_SECRET%
+
+    //5.参考sdk编写代码
+    //导入依赖
+    //编写代码
+
     //注意：MultipartFile的参数名一定要和前端表单项的参数名一致，不然要用@RequestParam注解指定前端参数名
     @PostMapping("/upload")
     public Result upload(String  name, Integer  age, MultipartFile  file) throws IOException {
@@ -35,7 +53,7 @@ public class UploadController {
         //拼接文件名
         String newFileName = uuid + extension;
 
-        //保存文件
+        //保存文件（直接保存在服务器中）
         file.transferTo(new File("E:/JavaProject/web-project/tlias-web-management/image/"+newFileName));
 
         return Result.success();
