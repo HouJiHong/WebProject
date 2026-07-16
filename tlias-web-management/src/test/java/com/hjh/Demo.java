@@ -13,7 +13,7 @@ import java.net.URL;
 import java.nio.file.Files;
 
 public class Demo {
-    //快速入门
+    //快速入门:直接将本地的一张图片上传到oss中
     public static void main(String[] args) throws Exception {
         // Endpoint为oss的服务域名，在控制台的外网访问列表中复制
         String endpoint = "https://oss-cn-beijing.aliyuncs.com";
