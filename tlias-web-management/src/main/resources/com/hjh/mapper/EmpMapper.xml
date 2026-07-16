@@ -39,4 +39,73 @@
 
                                     order by e.update_time desc
     </select>
+
+    <!--    删除员工基本信息-->
+    <delete id="deleteByIds">
+        delete from emp where id in
+                        <foreach collection="ids"  item="id" separator="," open="(" close=")">
+                            #{id}
+                        </foreach>
+    </delete>
+
+
+
+    <!--    修改员工信息（查询回显）-->
+<!--    注意：resultType为系统提供的自动封装，而此时使用下面的sql语句执行结果会有多条数据，
+            因为员工的工作经历可能有多条，此时用系统的自动封装会出错（直接将完整的多条数据赋给了一个对象），
+            所以需要手动封装resultMap ，将多的数据赋值给对象中的集合中-->
+    <!--<select id="getInfo" resultType="com.hjh.bean.Emp">
+        select e.*,
+               ee.id ee_id,
+               ee.emp_id ee_empid,
+               ee.begin ee_begin,
+               ee.end ee_end,
+               ee.company ee_company,
+               ee.job ee_job
+        from emp e left join emp_expr ee on e.id=ee.emp_id
+        where e.id = #{id}
+    </select>-->
+    
+<!--    先定义resultMap的内容，id为主键的标签,result为普通字段的标签
+        将sql查询完的结果column封装到property属性中，并返回结果type对象-->
+    <resultMap id="resultMap" type="com.hjh.bean.Emp">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="phone" property="phone"/>
+        <result column="job" property="job"/>
+        <result column="salary" property="salary"/>
+        <result column="image" property="image"/>
+        <result column="entry_date" property="entryDate"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+
+<!--        封装工作经历信息，ofType为集合元素的类型-->
+        <collection property="exprList" ofType="com.hjh.bean.EmpExpr">
+            <id column="ee_id" property="id"/>
+            <result column="ee_empid" property="empId"/>
+            <result column="ee_begin" property="begin"/>
+            <result column="ee_end" property="end"/>
+            <result column="ee_company" property="company"/>
+            <result column="ee_job" property="job"/>
+        </collection>
+    </resultMap>
+
+<!--    使用resultMap的封装方法-->
+    <select id="getInfo" resultMap="resultMap">
+        select e.*,
+               ee.id ee_id,
+               ee.emp_id ee_empid,
+               ee.begin ee_begin,
+               ee.end ee_end,
+               ee.company ee_company,
+               ee.job ee_job
+        from emp e left join emp_expr ee on e.id=ee.emp_id
+        where e.id = #{id}
+    </select>
+
+
 </mapper>

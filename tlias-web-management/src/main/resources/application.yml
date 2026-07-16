@@ -37,3 +37,10 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     #驼峰命名映射：直接搜camel
     map-underscore-to-camel-case: true
+
+#文件上传的基本参数
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-web-project-upload
+    region: cn-beijing

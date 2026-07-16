@@ -52,4 +52,11 @@ public interface EmpMapper {
             "values(#{username},#{name},#{gender},#{phone},#{job},#{salary},#{image},#{entryDate},#{deptId},#{createTime},#{updateTime}) ")
     void insert(Emp emp);
 
+
+
+    //删除员工基本信息
+    void deleteByIds(List<Integer> ids);
+
+    //修改员工信息（查询回显）
+    Emp getInfo(Integer id);
 }

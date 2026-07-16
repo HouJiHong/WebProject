@@ -11,6 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 @RequestMapping("/emps")
 @Slf4j
@@ -73,4 +75,36 @@ public class EmpController {
         empService.save(emp);
         return Result.success();
     }
+
+
+    //批量删除员工（包含删除单个员工）
+    //前端的请求参数为/emps?ids=1,2,3
+    //两种方法接收参数：1.将参数封装为数组
+    //                2.将参数封装为集合（需要@requestparam申明）
+
+    /*@DeleteMapping
+    public Result delete(Integer[] ids){
+        log.info("批量删除员工，参数：{}", Arrays.toString(ids));
+        return Result.success();
+    }*/
+
+    @DeleteMapping
+    public Result delete(@RequestParam List<Integer> ids){
+        log.info("批量删除员工，参数：{}", ids);
+        empService.delete(ids);
+        return Result.success();
+    }
+
+
+
+    //修改员工（查询回显）
+    //请求参数为路径参数
+    @GetMapping("/{id}")
+    public Result getInfo(@PathVariable Integer id){
+        log.info("查询员工信息，参数：{}", id);
+        Emp emp = empService.getInfo(id);
+        return Result.success(emp);
+    }
+
+
 }

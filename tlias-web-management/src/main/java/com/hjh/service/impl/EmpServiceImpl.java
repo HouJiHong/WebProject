@@ -22,6 +22,7 @@ import java.util.List;
 //2．定义Mapper接口的查询方法(无需考虑分页）
 //3.在Service方法中实现分页查询（调用静态方法）
 
+//事务管理一般放在service层
 
 @Service
 public class EmpServiceImpl implements EmpService {
@@ -154,6 +155,26 @@ public class EmpServiceImpl implements EmpService {
             EmpLog empLog = new EmpLog(null, LocalDateTime.now(), "新增员工：" + emp);
             empLogService.insertLog(empLog);
         }
-
     }
+
+    //批量删除员工
+    @Transactional(rollbackFor = {Exception.class})//多次操作数据库，需要添加事务
+    @Override
+    public void delete(List<Integer> ids) {
+        //1.删除员工基本信息
+        empMapper.deleteByIds(ids);
+
+        //2.删除员工工作经历信息
+        empExprMapper.deleteByEmpIds(ids);
+    }
+
+
+
+    //修改员工信息（查询回显）
+    @Override
+    public Emp getInfo(Integer id) {
+        return empMapper.getInfo(id);
+    }
+
+
 }

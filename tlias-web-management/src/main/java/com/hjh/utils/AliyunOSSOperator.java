@@ -7,6 +7,8 @@ import com.aliyun.oss.common.auth.CredentialsProviderFactory;
 import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
 import com.aliyun.oss.common.comm.SignVersion;
 import com.aliyuncs.exceptions.ClientException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
@@ -17,11 +19,31 @@ import java.util.UUID;
 //此为工具类：用于文件上传到OSS
 @Component
 public class AliyunOSSOperator {
-    private String endpoint = "https://oss-cn-beijing.aliyuncs.com";
-    private String bucketName = "java-web-project-upload";
-    private String region = "cn-beijing";
+    //这三个参数容易变更，转移到配置文件中,使用@value注解引入
+//    private String endpoint = "https://oss-cn-beijing.aliyuncs.com";
+//    private String bucketName = "java-web-project-upload";
+//    private String region = "cn-beijing";
+
+    //还是太麻烦，如果有很多配置项，需要一个一个配。此时可以用一个实体类来注入
+    /*@Value("${aliyun.oss.endpoint}")
+    private String endpoint;
+    @Value("${aliyun.oss.bucketName}")
+    private String bucketName;
+    @Value("${aliyun.oss.region}")
+    private String region;*/
+
+    //注入实体类,在哪个方法中哪个配置项需要，就get哪个
+    @Autowired
+    private AliyunOSSOProperties aliyunOSSOProperties;
+
 
     public String upload(byte[] content, String originalFilename) throws Exception {
+        //将需要的配置项get，并保存在变量中
+        String endpoint = aliyunOSSOProperties.getEndpoint();
+        String bucketName = aliyunOSSOProperties.getBucketName();
+        String region = aliyunOSSOProperties.getRegion();
+
+
         // 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
         EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
 
