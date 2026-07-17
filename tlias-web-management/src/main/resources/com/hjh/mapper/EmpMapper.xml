@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hjh.mapper.EmpMapper">
-<!--    只需配置一个参数：namespace：为需映射sql类的reference(右键类名复制)-->
+    <!--    只需配置一个参数：namespace：为需映射sql类的reference(右键类名复制)-->
 <!--id:为方法的名字，resultType：为查询返回的单条记录所封装的类型-->
 <!--                       where e.name like '%#{name}%' 在引号中不能使用#{}，因为在编译后会被替换成?，-->
 <!--                       而？在引号中不再是占位符，而是字符串，所以要用concat拼接字符串-->
@@ -105,6 +105,57 @@
                ee.job ee_job
         from emp e left join emp_expr ee on e.id=ee.emp_id
         where e.id = #{id}
+    </select>
+
+
+    <!--    修改员工基本信息-->
+    <update id="updateById">
+        update emp
+        <set>
+            <if test="username !=null and username!=''">username = #{username},</if>
+            <if test="password !=null and password!=''">password = #{password},</if>
+            <if test="name !=null and name!=''">name = #{name},</if>
+            <if test="gender !=null ">gender = #{gender},</if>
+            <if test="phone !=null and phone!=''">phone = #{phone},</if>
+            <if test="job !=null ">job = #{job},</if>
+            <if test="salary !=null ">salary = #{salary},</if>
+            <if test="image !=null and image!=''">image = #{image},</if>
+            <if test="entryDate !=null ">entry_date = #{entryDate},</if>
+            <if test="deptId !=null ">dept_id = #{deptId},</if>
+            <if test="updateTime !=null ">update_time = #{updateTime},</if>
+
+        </set>
+
+        where id = #{id}
+    </update>
+
+
+<!--    统计员工职位信息
+        由于前端想要的数据是job集合（职位的名称），和对应数据的集合，
+        所以需要用case将查询返回的数字改为职位。
+        执行的结果是多行两列，一列pos，一列num
+        -->
+    <select id="countEmpJobData" resultType="java.util.Map">
+        select
+            (case when job=1 then '班主任'
+                 when job=2 then '讲师'
+                 when job=3 then '学工主管'
+                 when job=4 then '教研主管'
+                 when job=5 then '咨询师'
+                 else '其他'end) pos,
+                count(*) num
+        from emp group by job order by num
+    </select>
+
+
+    <!--    统计员工性别信息
+            如果查询返回的结果要修改成别的名字，要么用case，要么用if，
+            匹配多个值用case，两个值用if-->
+    <select id="countEmpGenderData" resultType="java.util.Map">
+        select if(gender = 1, '男性员工', '女性员工') as name,
+               count(*)                                  value
+        from emp
+        group by gender
     </select>
 
 

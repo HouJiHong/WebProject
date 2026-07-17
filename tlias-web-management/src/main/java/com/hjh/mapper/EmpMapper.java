@@ -10,6 +10,8 @@ import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 //mapper中使用的 查询sql 要注意两点：1.sql的查询返回值要注意能不能封装（包括数据库的字段名和封装对象属性名是否一致，
 //                                                            sql查询返回值在封装对象中是否存在）。
 //                               2.sql的查询条件是用方法中的对象传的，还是多个形参直接传。
@@ -59,4 +61,22 @@ public interface EmpMapper {
 
     //修改员工信息（查询回显）
     Emp getInfo(Integer id);
+
+    //修改员工（保存基本信息）
+    void updateById(Emp emp);
+
+
+
+
+
+    //统计员工职位人数
+    /**
+     * sql执行的结果是多行两列，一列pos，一列num。
+     * 把结果封装到一个list集合，集合的元素是map集合，每个map集合里只有两个元素，
+     * 一个是pos=职位，一个是num=数据*/
+    List<Map<String, Object>> countEmpJobData();
+
+
+    //统计员工性别人数
+    List<Map<String, Object>> countEmpGenderData();
 }

@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 //PageHelper(简化分页查询)
@@ -176,5 +177,27 @@ public class EmpServiceImpl implements EmpService {
         return empMapper.getInfo(id);
     }
 
+
+    //修改员工（保存信息）
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void update(Emp emp) {
+        //1.修改员工的基本信息
+        emp.setUpdateTime(LocalDateTime.now());
+        empMapper.updateById(emp);
+
+
+        //2。修改员工工作经历信息（先删在添加）
+        empExprMapper.deleteByEmpIds(Arrays.asList(emp.getId()));
+        List<EmpExpr> exprList = emp.getExprList();
+        //删完后要将将emp里的集合遍历插入员工工作经历表中，但是现在集合里面没有员工的id，
+        // 所以要遍历集合，将员工id设置给员工工作经历对象
+        if(!CollectionUtils.isEmpty(exprList)){
+            exprList.forEach(empExpr -> {
+                empExpr.setEmpId(emp.getId());
+            });
+            empExprMapper.insertBatch(exprList);
+        }
+    }
 
 }
