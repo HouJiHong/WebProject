@@ -79,4 +79,9 @@ public interface EmpMapper {
 
     //统计员工性别人数
     List<Map<String, Object>> countEmpGenderData();
+
+
+    //根据用户名和密码查询用户
+    @Select("select id,username,name from emp where username = #{username} and password = #{password}")
+    Emp selectByUsernameAndPassword(Emp emp);
 }

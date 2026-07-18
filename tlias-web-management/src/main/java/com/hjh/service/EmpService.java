@@ -2,6 +2,7 @@ package com.hjh.service;
 
 import com.hjh.bean.Emp;
 import com.hjh.bean.EmpQueryParam;
+import com.hjh.bean.LoginInfo;
 import com.hjh.bean.PageResult;
 
 import java.time.LocalDate;
@@ -25,4 +26,7 @@ public interface EmpService {
 
     //修改员工（保存信息）
     void update(Emp emp);
+
+    //员工登录
+    LoginInfo login(Emp emp);
 }

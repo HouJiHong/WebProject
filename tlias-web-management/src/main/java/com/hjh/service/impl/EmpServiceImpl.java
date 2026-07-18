@@ -7,6 +7,8 @@ import com.hjh.mapper.EmpExprMapper;
 import com.hjh.mapper.EmpMapper;
 import com.hjh.service.EmpLogService;
 import com.hjh.service.EmpService;
+import com.hjh.utils.JwtUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,9 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //PageHelper(简化分页查询)
 //使用步骤：
@@ -25,6 +29,7 @@ import java.util.List;
 
 //事务管理一般放在service层
 
+@Slf4j
 @Service
 public class EmpServiceImpl implements EmpService {
     @Autowired
@@ -198,6 +203,24 @@ public class EmpServiceImpl implements EmpService {
             });
             empExprMapper.insertBatch(exprList);
         }
+    }
+
+    //员工登录
+    @Override
+    public LoginInfo login(Emp emp) {
+        //1.调用mapper接口，根据用户名和密码查询员工信息
+        Emp e = empMapper.selectByUsernameAndPassword(emp);
+        log.info("登录：{}", e);
+        //2.判断：是否存在该员工，如果不存在，则返回null，存在则组装登录信息
+
+        if(e != null){
+            //生成令牌
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("id",e.getId());
+            claims.put("username",e.getUsername());
+            return new LoginInfo(e.getId(), e.getUsername(), e.getName(), JwtUtils.generateToken(claims));
+        }
+        return null;
     }
 
 }
