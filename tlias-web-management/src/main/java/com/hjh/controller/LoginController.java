@@ -45,6 +45,9 @@ import org.springframework.web.bind.annotation.RestController;
 // 减轻服务器端存储压力
 //缺点：需要自己实现
 
+//1.引入jwt的依赖
+//2.编写令牌工具类JwtUtils（生成令牌，解析令牌）
+
 
 //JWT令牌
 //●全称：JSON Web Token

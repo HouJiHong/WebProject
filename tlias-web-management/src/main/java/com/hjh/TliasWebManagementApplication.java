@@ -2,6 +2,7 @@ package com.hjh;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.server.servlet.context.ServletComponentScan;
 //前后端联调测试
 //前端工程请求nginx服务器的地址为http://localhost:90/api/depts
 //nginx的反向代理：反向代理是一种网络架构，通过代理服务器为后端的服务器做代理，客户端的请求直接请求代理服务器，
@@ -21,6 +22,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //2.^~ /api/：表示精确匹配，即只匹配以/api/开头的路径。
 //3.rewrite：该指令用于重写匹配到的路径。
 //4.proxy_pass：该指令用于代理转发，它将匹配到的请求转发给位于后端的指令服务器。
+
+
+@ServletComponentScan //开启对servlet组件的扫描，可以根据filter的要求进行拦截请求
 @SpringBootApplication
 public class TliasWebManagementApplication {
 

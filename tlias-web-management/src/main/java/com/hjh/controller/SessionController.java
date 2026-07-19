@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 演示session*/
+ * 演示会话跟踪技术（cookie，session）*/
 
 @Slf4j
 @RestController
