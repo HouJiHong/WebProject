@@ -7,6 +7,10 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * 2，3，4用于测试切面类的优先级
+ * */
+
 @Slf4j
 @Component
 @Aspect

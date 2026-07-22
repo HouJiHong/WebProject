@@ -1,5 +1,6 @@
 package com.itheima.service.impl;
 
+import com.itheima.anno.LogOperation;
 import com.itheima.mapper.DeptMapper;
 import com.itheima.pojo.Dept;
 import com.itheima.service.DeptService;
@@ -16,6 +17,8 @@ public class DeptServiceImpl implements DeptService {
     @Autowired
     private DeptMapper deptMapper;
 
+
+    @LogOperation //此注解为自定义的注解，用于使用注解来匹配切入点，标识该注解则为切入点
     @Override
     public List<Dept> list() {
         List<Dept> deptList = deptMapper.list();

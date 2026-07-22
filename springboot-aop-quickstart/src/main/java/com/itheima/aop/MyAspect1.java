@@ -5,6 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
+/**
+ * 测试所有通知类型
+ * */
+
 
 @Aspect
 @Slf4j
