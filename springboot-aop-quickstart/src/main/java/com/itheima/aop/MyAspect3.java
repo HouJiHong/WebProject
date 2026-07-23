@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @Order(1) // 设置切面的优先级
-@Aspect
+//@Aspect
 public class MyAspect3 {
     //前置通知
     @Before("execution(* com.itheima.service.impl.*.*(..))")

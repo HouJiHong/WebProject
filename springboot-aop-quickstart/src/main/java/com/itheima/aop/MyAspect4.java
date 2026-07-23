@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Aspect
+//@Aspect
 public class MyAspect4 {
     //前置通知
     @Before("execution(* com.itheima.service.impl.*.*(..))")
