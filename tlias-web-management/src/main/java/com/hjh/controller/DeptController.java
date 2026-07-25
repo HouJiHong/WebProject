@@ -1,5 +1,6 @@
 package com.hjh.controller;
 
+import com.hjh.anno.Log;
 import com.hjh.bean.Dept;
 import com.hjh.bean.Result;
 import com.hjh.service.DeptService;
@@ -72,6 +73,7 @@ public class DeptController {
     //法三：
     //@DeleteMapping("/depts")
     @DeleteMapping
+    @Log   //aop 记录日志
     public Result delete(Integer id){   //注意：一定要一致
         //System.out.println("删除部门"+ id);
         log.info("删除部门"+ id);
@@ -88,6 +90,7 @@ public class DeptController {
     //添加部门
     //@PostMapping("/depts")
     @PostMapping
+    @Log //aop 记录日志
     public Result add(@RequestBody Dept dept){
         //System.out.println("添加部门"+ dept);
         log.info("添加部门{}", dept);
@@ -125,6 +128,7 @@ public class DeptController {
     //2.修改部门
     //@PutMapping("/depts")
     @PutMapping
+    @Log //aop 记录日志
     public Result update(@RequestBody Dept dept){ //前端发送的是json格式，通过@RequestBody将json转为java对象
         //System.out.println("修改部门"+ dept);
         log.info("修改部门{}", dept);

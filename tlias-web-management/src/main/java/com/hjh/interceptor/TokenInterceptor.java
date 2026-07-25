@@ -1,6 +1,8 @@
 package com.hjh.interceptor;
 
+import com.hjh.utils.CurrentHolder;
 import com.hjh.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -9,12 +11,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
- * 使用拦截器进行请求拦截，并校验令牌*/
+ * 使用拦截器进行请求拦截，并校验令牌，其配置类在com.hjh.config.WebConfig*/
 
 @Component
 @Slf4j
@@ -44,7 +48,14 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         //5. 如果token存在，校验令牌，如果校验失败->返回错误信息（响应401状态码）
         try {
-            JwtUtils.parseToken(token);
+            //先解析令牌,在解析的过程中有任何异常，直接返回错误，成功后，获取用户id，将用户id存入ThreadLocal，
+            //以便后续操作时需要使用当前的操作用户
+            Map<String, Object> stringObjectMap = JwtUtils.parseToken(token);
+            Integer empId = Integer.valueOf(stringObjectMap.get("id").toString());
+            CurrentHolder.setCurrentID(empId); //保存当前用户id到ThreadLocal中
+            log.info("令牌校验通过，当前用户id为：{}，将其存入ThreadLocal", empId);
+
+
         } catch (Exception e) {
             log.info("令牌有误，响应401");
             response.setStatus(401);
@@ -56,5 +67,11 @@ public class TokenInterceptor implements HandlerInterceptor {
         return true;
 
 
+    }
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //所有的操作完成后，移除ThreadLocal中的数据 (注意：这是拦截器，需要在afterCompletion()方法中执行删除，
+        // 在过滤器中，只需要在最后放行后删除就行)
+        CurrentHolder.remove();
     }
 }
