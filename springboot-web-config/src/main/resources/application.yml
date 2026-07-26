@@ -1,0 +1,46 @@
+#springboot中支持三种配置文件，其中application.properties优先级最高，
+  #application.yml次之，application.yaml最低                                   （内部）
+
+#springboot除了支持配置文件属性配置，还支持 java系统属性 和 命令行参数 的方式进行属性配置（外部）
+#外部配置优先级高于内部配置：命令行参数优先级高于java系统属性
+
+#方法一：在idea中编辑配置VM options（java系统属性）或Program arguments（命令行参数）
+                      #-Dserver.port=8082       --server.port=8082
+# 注意：此配置在打包后并不会生效，仅在idea中生效
+#方法二：项目已经打包成jar包，项目已经上线，又因为某些原因需要临时修改配置（比如数据库密码，端口已被占用），
+  #则可以在cmd中运行命令：java [java系统属性] -jar xxx.jar [命令行参数]
+
+
+server:
+  port: 8082
+
+
+
+spring:
+  application:
+    name: springboot-web-config
+  datasource:
+    url: jdbc:mysql://localhost:3306/tlias
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+  servlet:
+    #文件上传配置
+    multipart:
+      #最大单个文件大小
+      max-file-size: 10MB
+      #最大请求大小（包括所有文件和表单数据）
+      max-request-size: 100MB
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #驼峰命名映射：直接搜camel
+    map-underscore-to-camel-case: true
+
+#文件上传的基本参数
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-web-project-upload
+    region: cn-beijing
