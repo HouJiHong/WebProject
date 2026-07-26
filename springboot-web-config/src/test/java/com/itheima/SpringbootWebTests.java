@@ -1,6 +1,8 @@
 package com.itheima;
 
 import cn.hutool.core.io.FileUtil;
+import com.example.HeaderParser;
+import com.example.TokenParser;
 import com.itheima.utils.AliyunOSSOperator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +35,23 @@ class SpringbootWebTests {
         File file = new File("E:\\桌面\\魔改.jpg");
         String url = aliyunOSSOperator.upload(FileUtil.readBytes(file), "1.jpg");
         System.out.println(url);
+    }
+
+    //使用方案一：第三方类使用@component注解，创建对象，并交给ioc容器管理。在使用的时候需要自己
+     //配置扫描器，将第三方类加入扫描范围。
+    @Autowired
+    private TokenParser tokenParser;
+
+    @Test
+    public void testTokenParser(){
+        tokenParser.parse();
+    }
+
+    //使用方案二：在启动类中使用@import注解，将第三方类加入ioc容器中。
+    @Autowired
+    private HeaderParser headerParser;
+    @Test
+    public void testHeaderParser(){
+        headerParser.parse();
     }
 }

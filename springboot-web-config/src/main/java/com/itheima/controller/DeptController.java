@@ -31,7 +31,7 @@ import java.util.List;
 
 //第三方Bean
 //●如果要管理的bean对象来自于第三方（不是自定义的），是无法用@Component及衍生注解声明bean的，
-// 就需要用到@Bean注解。
+// 就需要用到@Bean注解。注入方式没有变化，哪里需要就添加@Autowired注解。
 //使用方法：
 //    1.直接在启动类SpringbootWebConfigApplication，创建一个方法，方法上添加@Bean注解，
 //    返回值类型为创建的bean对象，方法返回值会作为bean对象加入到ioc容器中。如果创建的bean对象

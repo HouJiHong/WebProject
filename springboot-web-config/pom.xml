@@ -91,6 +91,12 @@
             <artifactId>hutool-all</artifactId>
             <version>5.8.27</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>itheima-utils</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
