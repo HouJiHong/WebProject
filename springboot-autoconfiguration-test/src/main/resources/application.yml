@@ -1,0 +1,6 @@
+#文件上传的基本参数
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-web-project-upload
+    region: cn-beijing

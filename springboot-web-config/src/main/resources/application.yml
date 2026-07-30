@@ -44,3 +44,6 @@ aliyun:
     endpoint: https://oss-cn-beijing.aliyuncs.com
     bucketName: java-web-project-upload
     region: cn-beijing
+
+#测试@ConditionalOnProperty(name = "myName",havingValue = "Hjh")
+myName: Hjh
